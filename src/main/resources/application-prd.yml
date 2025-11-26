@@ -24,7 +24,7 @@ spring:
       indent_output: false
 
 server:
-  port: ${PORT:8080}
+  port: ${PORT}
   servlet:
     context-path: /
 
