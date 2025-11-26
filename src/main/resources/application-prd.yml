@@ -1,32 +1,30 @@
 spring:
   datasource:
-    url: jdbc:postgresql://dpg-d4jio7er433s739e7e1g-a.oregon-postgres.render.com:5432/tag_word
+    url: jdbc:postgresql://dpg-d4jio7er433s739e7e1g-a.oregon-postgres.render.com:5432/tag_word?sslmode=require
     username: tag_word_user
     password: rutIxJ7L3bNnYuLf6tPneOdoZ3EfLuPB
     driver-class-name: org.postgresql.Driver
-  hikari:
-    maximum-pool-size: 10
-    minimum-idle: 2
-    idle-timeout: 600000
-    max-lifetime: 1800000
-    connection-timeout: 30000
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
 
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update  # Em produção, só valida o schema
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-        show_sql: false
 
   jackson:
     serialization:
       indent_output: false
 
 server:
-  port: ${8080:8080} # Usa a variável de ambiente PORT, ou 8080 se não estiver definida
+  port: ${PORT:8080}
   servlet:
     context-path: /
 
@@ -37,3 +35,13 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: WARN
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: Tag API
+        url: /v3/api-docs
