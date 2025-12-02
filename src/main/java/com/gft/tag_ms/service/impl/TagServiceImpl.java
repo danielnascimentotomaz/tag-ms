@@ -4,9 +4,12 @@ import com.gft.tag_ms.dto.*;
 import com.gft.tag_ms.entity.Tag;
 import com.gft.tag_ms.exception.NotFoundException;
 import com.gft.tag_ms.mapper.TagMapper;
+import com.gft.tag_ms.producer.EtiquetaExcluidaProducer;
 import com.gft.tag_ms.producer.IEtiquetaExcluidaProducer;
 import com.gft.tag_ms.repository.TagRepository;
 import com.gft.tag_ms.service.ITagService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class TagServiceImpl implements ITagService {
 
+    private static final Logger log = LoggerFactory.getLogger(TagServiceImpl.class);
+
     private  final TagRepository tagRepository;
     private  final TagMapper tagMapper;
     private final IEtiquetaExcluidaProducer producer;
@@ -24,15 +29,19 @@ public class TagServiceImpl implements ITagService {
     public TagServiceImpl(TagRepository tagRepository, TagMapper tagMapper, IEtiquetaExcluidaProducer producer) {
         this.tagRepository = tagRepository;
         this.tagMapper = tagMapper;
+
+
         this.producer = producer;
     }
 
 
     @Override
     public TagResponse create(TagRequest request) {
+
         Tag entity = tagMapper.toEntity(request);
         Tag saved = tagRepository.save(entity);
         return tagMapper.toResponse(saved);
+
     }
 
     @Override
@@ -82,6 +91,7 @@ public class TagServiceImpl implements ITagService {
         tagRepository.delete(tag);
 
 
+
         // 3. Monta a mensagem
         EtiquetaExcluidaMensage message = new  EtiquetaExcluidaMensage(
                 tag.getId(),
@@ -91,6 +101,7 @@ public class TagServiceImpl implements ITagService {
 
         // 4. Dispara evento para o RabbitMQ
         producer.notifyEtiquetaExcluida(message);
+        log.info("🔥 Enviando mensagem para RabbitMQ: {}", message);
 
 
     }

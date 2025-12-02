@@ -6,12 +6,14 @@ import com.gft.tag_ms.dto.TagResponse;
 import com.gft.tag_ms.dto.TagWithWordsResponse;
 import com.gft.tag_ms.service.ITagService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/tags")
 public class TagController implements TagControllerDoc {
@@ -57,6 +59,7 @@ public class TagController implements TagControllerDoc {
     @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+
         tagService.delete(id);
         return ResponseEntity.noContent().build();
     }

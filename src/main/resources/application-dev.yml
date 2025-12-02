@@ -21,3 +21,17 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  rabbitmq:
+    host: seal.lmq.cloudamqp.com
+    port: 5672             # ou 5671 se usar SSL
+    username: waebvucx
+    password: qWtlJy-9NgqOUuVmC8r29m4luRrwkXS_
+    virtual-host: waebvucx
+    ssl:
+      enabled: false       # true se usar TLS/AMQP
+
+logging:
+  level:
+    org.springframework: INFO
+    com.gft.tag_ms: DEBUG

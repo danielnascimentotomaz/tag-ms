@@ -2,11 +2,13 @@ package com.gft.tag_ms.producer;
 
 import com.gft.tag_ms.dto.EtiquetaExcluidaMensage;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+
 
 @Slf4j
-@Service
+@Component
 public class EtiquetaExcluidaProducer implements IEtiquetaExcluidaProducer{
 
     //<serviço>.<domínio>.exchange
