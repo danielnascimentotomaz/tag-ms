@@ -35,3 +35,6 @@ logging:
   level:
     org.springframework: INFO
     com.gft.tag_ms: DEBUG
+
+server:
+  port: 8081
