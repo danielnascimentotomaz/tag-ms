@@ -27,6 +27,7 @@ public class JWTParse {
             throw new IllegalArgumentException("Token ausente ou inválido.");
         }
 
+
         // Remove prefixo (ex: "Bearer ")
         if (token.startsWith(prefix + " ")) {
             token = token.substring((prefix + " ").length());

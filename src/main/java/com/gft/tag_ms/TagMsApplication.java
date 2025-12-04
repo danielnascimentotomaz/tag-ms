@@ -5,14 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 
-/*@OpenAPIDefinition(
-        servers = {
-                @Server(
-                        url = "https://tag-ms.onrender.com",
-                        description = "Render Production"
-                )
-        }
-)*/
+
 @SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class })
 public class TagMsApplication {
 

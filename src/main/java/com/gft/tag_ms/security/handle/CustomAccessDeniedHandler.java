@@ -25,7 +25,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
                   "timestamp": "%s",
                   "status": "FORBIDDEN",
                   "statusCode": 403,
-                  "error": "Acesso negado. Token inválido ou sem permissão.",
+                  "error": "Você não tem permissão para acessar este recurso.",
                   "path": "%s"
                 }
                 """.formatted(java.time.LocalDateTime.now(), request.getRequestURI());

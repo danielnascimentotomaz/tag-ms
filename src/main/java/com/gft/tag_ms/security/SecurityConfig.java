@@ -12,6 +12,5 @@ import org.springframework.context.annotation.Configuration;
 public class SecurityConfig {
 
     private String key;
-    private Long expiration;
     private String prefix;
 }

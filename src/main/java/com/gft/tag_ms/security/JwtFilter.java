@@ -97,16 +97,29 @@ public class JwtFilter extends OncePerRequestFilter {
             // 🔥 Continua o fluxo da requisição no filtro
             filterChain.doFilter(request, response);
 
-        } catch (ExpiredJwtException e) {
-            handleJwtException(request, response, "Token expirado. Faça login novamente.", e);
+
+            log.info("✅ chegou aqui ");
+
+        }catch (ExpiredJwtException e) {
+            handleJwtException(request, response, "Token expirado. Faça login novamente.");
+
+        } catch (PrematureJwtException e) {
+            handleJwtException(request, response, "Token ainda não está válido.");
+
         } catch (MalformedJwtException e) {
-            handleJwtException(request, response, "Token mal formado.", e);
-        } catch (SecurityException e) {
-            handleJwtException(request, response, "Assinatura do token inválida.", e);
-        } catch (IllegalArgumentException e) {
-            handleJwtException(request, response, "Token ausente ou inválido.", e);
+            handleJwtException(request, response, "Token mal formado.");
+
         } catch (UnsupportedJwtException e) {
-            handleJwtException(request, response, "Formato de token não suportado.", e);
+            handleJwtException(request, response, "Formato de token não suportado.");
+
+        } catch (io.jsonwebtoken.security.SecurityException e) {
+            handleJwtException(request, response, "Assinatura do token inválida.");
+
+        } catch (IllegalArgumentException e) {
+            handleJwtException(request, response, "Token ausente ou inválido.");
+
+        } catch (JwtException e) { // fallback
+            handleJwtException(request, response, "Erro geral no token.");
         }
     }
 
@@ -115,9 +128,8 @@ public class JwtFilter extends OncePerRequestFilter {
      */
     private void handleJwtException(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    String message,
-                                    Exception e) throws IOException, ServletException {
-        log.error("⚠️ {}", message, e);
+                                    String message)throws IOException, ServletException {
+        log.warn("⚠️ {}", message);
 
         SecurityContextHolder.clearContext();
         entryPoint.commence(request, response, new JwtAuthenticationException(message));
